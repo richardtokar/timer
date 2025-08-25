@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Countdown Timer</title>
+    <style>
+        /* This is the CSS for the "Mr. Beast" style */
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@900&display=swap');
+
+        body {
+            background-color: #111111; /* Dark background */
+            color: #FFFFFF; /* White text */
+            font-family: 'Montserrat', sans-serif; /* Bold, impactful font */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden; /* Hide scrollbars */
+        }
+
+        #timer-container {
+            text-align: center;
+        }
+
+        #timer {
+            font-size: 25vw; /* HUGE font size that scales with the window width */
+            font-weight: 900; /* Extra bold */
+            line-height: 1;
+            text-shadow: 0 0 15px rgba(0, 255, 255, 0.5), 0 0 30px rgba(0, 255, 255, 0.3); /* A slight cyan glow */
+        }
+
+        #times-up {
+            font-size: 15vw;
+            color: #FF0000; /* Red color for the final message */
+            text-shadow: 0 0 20px #FF0000;
+            display: none; /* Hidden by default */
+        }
+    </style>
+</head>
+<body>
+
+    <div id="timer-container">
+        <div id="timer">2:20</div>
+        <div id="times-up">TIME'S UP!</div>
+    </div>
+
+    <script>
+        // This is the JavaScript that makes the timer work
+
+        // --- CONFIGURATION ---
+        const startingMinutes = 2;
+        const startingSeconds = 20;
+        // -------------------
+
+        let totalSeconds = (startingMinutes * 60) + startingSeconds;
+        const timerElement = document.getElementById('timer');
+        const timesUpElement = document.getElementById('times-up');
+
+        const timerInterval = setInterval(updateTimer, 1000);
+
+        function updateTimer() {
+            if (totalSeconds <= 0) {
+                clearInterval(timerInterval);
+                timerElement.style.display = 'none'; // Hide the timer
+                timesUpElement.style.display = 'block'; // Show the "TIME'S UP!" message
+                // Optional: Play a sound
+                // new Audio('path/to/sound.mp3').play();
+                return;
+            }
+
+            totalSeconds--;
+
+            const minutes = Math.floor(totalSeconds / 60);
+            const seconds = totalSeconds % 60;
+
+            // Format the seconds to always have two digits (e.g., 09, 08, 07)
+            const formattedSeconds = seconds.toString().padStart(2, '0');
+
+            timerElement.textContent = `${minutes}:${formattedSeconds}`;
+        }
+        
+        // Initialize the timer display on load
+        updateTimer();
+
+    </script>
+
+</body>
+</html>
