@@ -58,19 +58,24 @@
         const timerElement = document.getElementById('timer');
         const timesUpElement = document.getElementById('times-up');
 
+        // MODIFICATION: Set the initial display correctly to 2:20 before the countdown interval begins.
+        // This ensures "2:20" is displayed for the first full second.
+        const initialMinutes = Math.floor(totalSeconds / 60);
+        const initialSeconds = totalSeconds % 60;
+        timerElement.textContent = `${initialMinutes}:${initialSeconds.toString().padStart(2, '0')}`;
+        
         const timerInterval = setInterval(updateTimer, 1000);
 
         function updateTimer() {
-            if (totalSeconds <= 0) {
+            // Now, we decrement first, so after one second, it correctly shows 2:19
+            totalSeconds--;
+
+            if (totalSeconds < 0) {
                 clearInterval(timerInterval);
                 timerElement.style.display = 'none'; // Hide the timer
                 timesUpElement.style.display = 'block'; // Show the "TIME'S UP!" message
-                // Optional: Play a sound
-                // new Audio('path/to/sound.mp3').play();
                 return;
             }
-
-            totalSeconds--;
 
             const minutes = Math.floor(totalSeconds / 60);
             const seconds = totalSeconds % 60;
@@ -80,9 +85,6 @@
 
             timerElement.textContent = `${minutes}:${formattedSeconds}`;
         }
-        
-        // Initialize the timer display on load
-        updateTimer();
 
     </script>
 
